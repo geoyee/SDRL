@@ -1,0 +1,37 @@
+bands:
+    b1:
+        tag: 多光谱
+        order: 1
+        resolution: 16
+        wavelength: [0.45, 0.52]
+        description: Blue
+        gain: 0.1588
+        bias: 5.5303
+        BMSI: 1957.3
+    b2:
+        tag: 多光谱
+        order: 2
+        resolution: 16
+        wavelength: [0.52, 0.59]
+        description: Green
+        gain: 0.1515
+        bias: -13.642
+        BMSI: 1857.6
+    b3:
+        tag: 多光谱
+        order: 3
+        resolution: 16
+        wavelength: [0.63, 0.69]
+        description: Red
+        gain: 0.1251
+        bias: -15.382
+        BMSI: 1560.1
+    b4:
+        tag: 多光谱
+        order: 4
+        resolution: 16
+        wavelength: [0.77, 0.89]
+        description: Near infrared
+        gain: 0.1209
+        bias: -7.985
+        BMSI: 1079.3
