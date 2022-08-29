@@ -1,0 +1,79 @@
+bands:
+    b1:
+        tag: 多光谱
+        order: 1
+        resolution: 60
+        wavelength: [0.4427, 0.4422]
+        description: Coastal aerosol
+    b2:
+        tag: 多光谱
+        order: 2
+        resolution: 10
+        wavelength: [0.4924, 0.4921]
+        description: Blue
+    b3:
+        tag: 多光谱
+        order: 3
+        resolution: 10
+        wavelength: [0.5598, 0.5590]
+        description: Green
+    b4:
+        tag: 多光谱
+        order: 4
+        resolution: 10
+        wavelength: [0.6646, 0.6649]
+        description: Red
+    b5:
+        tag: 多光谱
+        order: 5
+        resolution: 20
+        wavelength: [0.7041, 0.7038]
+        description: Vegetation red edge
+    b6:
+        tag: 多光谱
+        order: 6
+        resolution: 20
+        wavelength: [0.7405, 0.7391]
+        description: Vegetation red edge
+    b7:
+        tag: 多光谱
+        order: 7
+        resolution: 20
+        wavelength: [0.7828, 0.7797]
+        description: Vegetation red edge
+    b8:
+        tag: 多光谱
+        order: 8
+        resolution: 10
+        wavelength: [0.8328, 0.8329]
+        description: NIR
+    b9:
+        tag: 多光谱
+        order: 9
+        resolution: 20
+        wavelength: [0.8647, 0.8640]
+        description: Narrow NIR
+    b10:
+        tag: 多光谱
+        order: 10
+        resolution: 60
+        wavelength: [0.9451, 0.9432]
+        description: Water vapour
+    b11:
+        tag: 多光谱
+        order: 11
+        resolution: 60
+        wavelength: [1.3735, 1.3769]
+        description: SWIR Cirrus
+    b12:
+        tag: 多光谱
+        order: 12
+        resolution: 20
+        wavelength: [1.6137, 1.6104]
+        description: SWIR
+    b13:
+        tag: 多光谱
+        order: 13
+        resolution: 20
+        wavelength: [2.2024, 2.1857]
+        description: SWIR

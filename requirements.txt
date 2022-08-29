@@ -1,3 +1,4 @@
+scikit-image
 yaml
 pandas
 GDAL

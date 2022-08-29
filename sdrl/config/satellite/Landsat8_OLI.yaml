@@ -1,0 +1,55 @@
+bands:
+    b1:
+        tag: 多光谱
+        order: 1
+        resolution: 30
+        wavelength: [0.43, 0.45]
+        description: Coastal aerosol
+    b2:
+        tag: 多光谱
+        order: 2
+        resolution: 30
+        wavelength: [0.45, 0.51]
+        description: Blue
+    b3:
+        tag: 多光谱
+        order: 3
+        resolution: 30
+        wavelength: [0.53, 0.59]
+        description: Green
+    b4:
+        tag: 多光谱
+        order: 4
+        resolution: 30
+        wavelength: [0.64, 0.67]
+        description: Red
+    b5:
+        tag: 多光谱
+        order: 5
+        resolution: 30
+        wavelength: [0.85, 0.88]
+        description: NIR
+    b6:
+        tag: 多光谱
+        order: 6
+        resolution: 30
+        wavelength: [1.57, 1.65]
+        description: SWIR1
+    b7:
+        tag: 多光谱
+        order: 7
+        resolution: 30
+        wavelength: [2.11, 2.29]
+        description: SWIR2
+    b8:
+        tag: 全色
+        order: 8
+        resolution: 15
+        wavelength: [0.50, 0.68]
+        description: PAN
+    b9:
+        tag: 多光谱
+        order: 9
+        resolution: 30
+        wavelength: [1.36, 1.38]
+        description: Cirrus

@@ -14,9 +14,6 @@ class Band:
         resolution: Union[int, float],
         wavelength: Optional[Union[float, Iterable[float]]] = None,
         description: Optional[str] = None,
-        gain: Optional[float] = None,
-        bias: Optional[float] = None,
-        BMSI: Optional[float] = None,
     ) -> None:
         self._attrs = {
             "tag": tag,  # 该波段的标签
@@ -24,17 +21,14 @@ class Band:
             "resolution": resolution,  # 该波段图像的分辨率
             "wavelength": wavelength,  # 该波段的波长
             "description": description,  # 该波段的相关描述
-            "gain": gain,  # 该波段的绝对辐射定标系数
-            "bias": bias,  # 该波段的绝对辐射定标系数
-            "BMSI": BMSI,  # 该波段的平均太阳辐照度
         }
 
-    def get(self, type: str = "tag") -> Any:
+    def get(self, type: str = "description") -> Any:
         if type not in self._attrs.keys():
             raise NotFindError("Cannt find {} in band attrs.".format(type))
         return self._attrs[type]
 
-    def set(self, value: Any, type: str = "tag") -> None:
+    def set(self, value: Any, type: str = "description") -> None:
         if type not in self._attrs.keys():
             raise NotFindError("Cannt find {} in band attrs.".format(type))
         self._attrs[type] = value
@@ -50,7 +44,7 @@ class BandList:
     def __len__(self) -> int:
         return len(self.band_list)
 
-    def find(self, index: Any, type: str = "tag") -> List[Band]:
+    def find(self, index: Any, type: str = "description") -> List[Band]:
         if self.__len__ == 0 or type not in self.band_list[0]._attrs:
             raise NotFindError("Cannt find {} in band list.".format(type))
         result = []
@@ -77,11 +71,8 @@ def creat_band_list_from_config(yaml_path: str) -> BandList:
                     b["tag"],
                     b["order"],
                     b["resolution"],
-                    tuple(b["wavelength"]),
+                    b["wavelength"],
                     b["description"],
-                    b["gain"],
-                    b["bias"],
-                    b["BMSI"],
                 )
             )
     return BandList(band_list)
