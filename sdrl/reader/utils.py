@@ -2,7 +2,7 @@ import numpy as np
 from skimage import exposure
 
 
-def to_uint8(im, is_linear=False):
+def to_uint8(im, is_linear=True):
     """
     Convert raster data to uint8 type.
 

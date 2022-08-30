@@ -8,3 +8,11 @@ class SatelliteNotFindError(Exception):
 
 class FunctionNotFindError(Exception):
     pass
+
+
+class OpenFileError(Exception):
+    pass
+
+
+class MismatchError(Exception):
+    pass
