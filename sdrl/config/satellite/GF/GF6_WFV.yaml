@@ -1,0 +1,49 @@
+bands:
+    b1:
+        tag: 多光谱
+        order: 1
+        resolution: 16
+        wavelength: [0.45, 0.52]
+        description: Blue
+    b2:
+        tag: 多光谱
+        order: 2
+        resolution: 16
+        wavelength: [0.52, 0.59]
+        description: Green
+    b3:
+        tag: 多光谱
+        order: 3
+        resolution: 16
+        wavelength: [0.63, 0.69]
+        description: Red
+    b4:
+        tag: 多光谱
+        order: 4
+        resolution: 16
+        wavelength: [0.77, 0.89]
+        description: NIR
+    b5:
+        tag: 多光谱
+        order: 5
+        resolution: 16
+        wavelength: [0.69, 0.73]
+        description: Red edge1
+    b6:
+        tag: 多光谱
+        order: 6
+        resolution: 16
+        wavelength: [0.73, 0.77]
+        description: Red edge2
+    b7:
+        tag: 多光谱
+        order: 7
+        resolution: 16
+        wavelength: [0.40, 0.45]
+        description: Coastal
+    b8:
+        tag: 多光谱
+        order: 8
+        resolution: 16
+        wavelength: [0.59, 0.63]
+        description:

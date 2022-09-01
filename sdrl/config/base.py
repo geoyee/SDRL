@@ -1,7 +1,10 @@
-SATELLITES = {
-    "map": "sdrl/config/satellite/ElectronicMap.yaml",
-    "GF1_PMS": "sdrl/config/satellite/GF1_PMS.yaml",
-    "GF1_WFV": "sdrl/config/satellite/GF1_WFV.yaml",
-    "Landsat8_OLI": "sdrl/config/satellite/Landsat8_OLI.yaml",
-    "Sentinel2": "sdrl/config/satellite/Sentinel2.yaml",
-}
+import os.path as osp
+from glob import glob
+
+
+SATELLITES = {}
+satellite_dir = "sdrl/config/satellite"
+yamls = glob(osp.join(satellite_dir, "*/*.yaml"))
+for yaml_file in yamls:
+    name = yaml_file.replace("\\", "/").split("/")[-1].split(".")[0]
+    SATELLITES[name] = yaml_file

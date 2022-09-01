@@ -10,7 +10,7 @@ from ..band import creat_band_list_from_config
 
 
 class SatelliteReader:
-    def __init__(self, sensing: str) -> None:
+    def __init__(self, sensing: str = "ElectronicMap") -> None:
         if sensing not in SATELLITES.keys():
             SatelliteNotFindError("Cannt find {} in satellites.".format(sensing))
         self._band_list = creat_band_list_from_config(SATELLITES[sensing])

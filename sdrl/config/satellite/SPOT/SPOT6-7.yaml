@@ -1,0 +1,31 @@
+bands:
+    b1:
+        tag: 多光谱
+        order: 1
+        resolution: 6
+        wavelength: [0.455, 0.525]
+        description: Blue
+    b2:
+        tag: 多光谱
+        order: 2
+        resolution: 6
+        wavelength: [0.530, 0.590]
+        description: Green
+    b3:
+        tag: 多光谱
+        order: 3
+        resolution: 6
+        wavelength: [0.625, 0.695]
+        description: Red
+    b4:
+        tag: 多光谱
+        order: 4
+        resolution: 6
+        wavelength: [0.760, 0.890]
+        description: NIR
+    b5:
+        tag: 全色
+        order: 5
+        resolution: 1.5
+        wavelength: [0.450, 0.750]
+        description: PAN
