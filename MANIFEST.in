@@ -1,1 +1,1 @@
-include sdrl/config/satellite/*
+recursive-include sdrl/config *
