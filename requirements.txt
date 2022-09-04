@@ -1,4 +1,4 @@
 scikit-image
-yaml
 pandas
+pyyaml
 GDAL
