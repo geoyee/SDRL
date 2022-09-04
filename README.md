@@ -1,2 +1,4 @@
-# sdrl
- [test.ipynb](test.ipynb)
+# SDRL
+
+这是一个持续更新的卫星数据读取的库，通过设定传感器类型可以方便的对卫星图像进行一些简单处理，相关测试可见：[test.ipynb](test.ipynb)
+

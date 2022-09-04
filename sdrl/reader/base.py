@@ -18,7 +18,7 @@ class SatelliteReader:
         Args:
             sensing (str, optional): 传感器类型或或自定义配置，默认为"ElectronicMap"
         """
-        if osp.exists(sensing) and sensing.split(".")[-1] == "yaml":
+        if osp.exists(sensing) and sensing.split(".")[-1] in ("yaml", "yml"):
             config_file = sensing
         elif sensing in SATELLITES.keys():
             config_file = SATELLITES[sensing]

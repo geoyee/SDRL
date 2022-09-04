@@ -15,7 +15,7 @@ setuptools.setup(
     description="Satellite Data Read Library",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
-    url="https://github.com/geoyee/sdrl",
+    url="https://github.com/geoyee/SDRL",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=REQUIRED_PACKAGES,
