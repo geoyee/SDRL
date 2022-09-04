@@ -13,7 +13,7 @@ with open(osp.join(PATH, "requirements.txt"), "r") as fin:
 
 setuptools.setup(
     name="sdrl",
-    version="0.0.1",
+    version="0.0.3",
     author="geoyee",
     author_email="geoyee@yeah.net",
     description="Satellite Data Read Library",
