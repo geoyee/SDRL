@@ -9,7 +9,7 @@ with open("requirements.txt", "r") as fin:
 
 setuptools.setup(
     name="sdrl",
-    version="0.0.5",
+    version="0.0.6",
     author="geoyee",
     author_email="geoyee@yeah.net",
     description="Satellite Data Read Library",
