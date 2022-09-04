@@ -1,4 +1,4 @@
-class FileNotOpenError(Exception):
+class OpenFileError(Exception):
     pass
 
 
@@ -7,10 +7,6 @@ class SatelliteNotFindError(Exception):
 
 
 class FunctionNotFindError(Exception):
-    pass
-
-
-class OpenFileError(Exception):
     pass
 
 

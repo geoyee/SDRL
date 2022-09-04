@@ -3,14 +3,14 @@ from skimage import exposure
 
 
 def to_uint8(im, is_linear=True):
-    """
-    Convert raster data to uint8 type.
+    """将栅格转为UINT8
 
     Args:
-        im (np.ndarray): Input raster image.
-        is_linear (bool, optional): Use 2% linear stretch or not. Default is False.
+        im (np.ndarray): 栅格图像
+        is_linear (bool, optional): 是否使用2%线性拉伸，默认为True
+
     Returns:
-        np.ndarray: Image data with unit8 type.
+        np.ndarray: UINT8的栅格图像
     """
 
     # 2% linear stretch

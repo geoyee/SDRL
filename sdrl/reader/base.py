@@ -1,7 +1,9 @@
-import numpy as np
+import os.path as osp
 from math import ceil
+from typing import Any, Iterator, Optional, Tuple
+import re
+import numpy as np
 from osgeo import gdal
-from typing import Any, Iterable, Optional, Tuple
 from .functions import RSINDEXS
 from .utils import to_uint8
 from .error import *
@@ -11,18 +13,55 @@ from ..band import creat_band_list_from_config
 
 class SatelliteReader:
     def __init__(self, sensing: str = "ElectronicMap") -> None:
-        if sensing not in SATELLITES.keys():
-            SatelliteNotFindError("Cannt find {} in satellites.".format(sensing))
-        self._band_list = creat_band_list_from_config(SATELLITES[sensing])
+        """卫星图像加载器
+
+        Args:
+            sensing (str, optional): 传感器类型或或自定义配置，默认为"ElectronicMap"
+        """
+        if osp.exists(sensing) and sensing.split(".")[-1] == "yaml":
+            config_file = sensing
+        elif sensing in SATELLITES.keys():
+            config_file = SATELLITES[sensing]
+        else:
+            SatelliteNotFindError("Cannt find {} in SATELLITES.".format(sensing))
+        self._band_list = creat_band_list_from_config(config_file)
         self._src = None
         self._width = None
         self._height = None
         self._bands = None
 
+    @classmethod
+    def support_sensing(cls) -> Tuple[str, ...]:
+        """支持的传感器类型
+
+        Returns:
+            Tuple[str, ...]: 支持的传感器类型
+        """
+        return tuple(SATELLITES.keys())
+
+    @classmethod
+    def support_index(cls) -> Tuple[str, ...]:
+        """支持的波段计算公式
+
+        Returns:
+            Tuple[str, ...]: 支持的波段计算公式
+        """
+        return tuple(RSINDEXS.keys())
+
     def summay(self) -> None:
+        """展示所有波段的属性总览"""
         self._band_list.summay()
 
-    def read(self, img_path: str) -> None:
+    def open(self, img_path: str) -> None:
+        """打开一个栅格图像
+
+        Args:
+            img_path (str): 图像路径
+
+        Raises:
+            OpenFileError: 图像路径不存在
+            MismatchError: 图像波段数与传感器波段数不一致
+        """
         self._src = gdal.Open(img_path)
         if self._src is None:
             raise OpenFileError("Open file failed.")
@@ -38,13 +77,26 @@ class SatelliteReader:
 
     def get_band(
         self,
-        index: Any,
+        value: Any,
         type: str = "description",
         window: Optional[Tuple[int, int, int, int]] = None,
     ) -> np.ndarray:
+        """获取一个波段的值，若索引出的波段大于两个，也只将返回第一个波段的值
+
+        Args:
+            value (Any): 查找的值
+            type (str, optional): 查找的属性，默认为"description"
+            window (Optional[Tuple[int, int, int, int]], optional): 窗口位置，默认为None
+
+        Raises:
+            OpenFileError: 图像未打开
+
+        Returns:
+            np.ndarray: 该波段的值
+        """
         if self._src is None:
-            raise FileNotOpenError("Please read image file first!")
-        order = self._band_list.find(index, type)[0].get("order")
+            raise OpenFileError("Please read image file first!")
+        order = self._band_list.find(value, type)[0].get("order")
         if window is None:
             return self._src.GetRasterBand(order).ReadAsArray()
         else:
@@ -52,9 +104,18 @@ class SatelliteReader:
                 xoff=window[0], yoff=window[1], win_xsize=window[2], win_ysize=window[3]
             )
 
-    def getRGB(
+    def get_RGB(
         self, to_u8: bool = True, window: Optional[Tuple[int, int, int, int]] = None
     ) -> np.ndarray:
+        """获取栅格的真彩色图像
+
+        Args:
+            to_u8 (bool, optional): 是否转为UINT8，默认为True.
+            window (Optional[Tuple[int, int, int, int]], optional): 窗口位置，默认为None
+
+        Returns:
+            np.ndarray: 该栅格的真彩色图像
+        """
         ima = np.stack(
             [
                 self.get_band("Red", window=window),
@@ -70,16 +131,33 @@ class SatelliteReader:
     def sample_band_compute(
         self,
         mode: str = "NDVI",
-        eps: float = 1e-12,
+        eps: float = 2.2204e-16,
         window: Optional[Tuple[int, int, int, int]] = None,
     ) -> np.ndarray:
-        R = self.get_band("Red", window=window) + eps
-        G = self.get_band("Green", window=window) + eps
-        B = self.get_band("Blue", window=window) + eps
-        NIR = self.get_band("NIR", window=window) + eps
+        """简单的波段计算
+
+        Args:
+            mode (str, optional): 需要计算的指数，默认为"NDVI"
+            eps (float, optional): 避免分母为零，默认为2.2204e-16.
+            window (Optional[Tuple[int, int, int, int]], optional): 窗口位置，默认为None
+
+        Raises:
+            FunctionNotFindError: 图像未打开
+
+        Returns:
+            np.ndarray: 波段计算的结果
+        """
         if mode not in RSINDEXS.keys():
             raise FunctionNotFindError("Cannt find {} in functions.".format(mode))
-        return eval(RSINDEXS[mode])
+        func = RSINDEXS[mode]
+        values = re.split("\+|-|\*|/", func)
+        for value in list(set(values)):
+            value = value.strip().replace("(", "").replace(")", "")
+            try:
+                _ = float(value)
+            except:
+                exec(value + " = self.get_band(value, window=window) + eps")
+        return eval(func)
 
     def _get_window(
         self, start_loc: Tuple[int, int], block_size: Tuple[int, int]
@@ -87,7 +165,7 @@ class SatelliteReader:
         if len(start_loc) != 2 or len(block_size) != 2:
             raise ValueError("The length start_loc/block_size must be 2.")
         if self._width is None or self._height is None:
-            raise FileNotOpenError("Please read image file first!")
+            raise OpenFileError("Please read image file first!")
         xoff, yoff = start_loc
         xsize, ysize = block_size
         if (xoff < 0 or xoff > self._width) or (yoff < 0 or yoff > self._height):
@@ -104,9 +182,21 @@ class SatelliteReader:
 
     def get_iter(
         self, block_size: Tuple[int, int] = (512, 512), mode: str = "ALL"
-    ) -> Iterable[np.ndarray]:
+    ) -> Iterator[np.ndarray]:
+        """迭代返回固定大小的图像块
+
+        Args:
+            block_size (Tuple[int, int], optional): 图像块大小，默认为(512, 512)
+            mode (str, optional): 图像模式，默认为"ALL"
+
+        Raises:
+            OpenFileError: 图像未打开
+
+        Yields:
+            Iterator[np.ndarray]: 图像块的迭代器
+        """
         if self._width is None or self._height is None:
-            raise FileNotOpenError("Please read image file first!")
+            raise OpenFileError("Please read image file first!")
         rows = ceil(self._height / block_size[0])
         cols = ceil(self._width / block_size[1])
         for r in range(rows):
@@ -121,7 +211,7 @@ class SatelliteReader:
                     )
                 else:
                     if self._src is None:
-                        raise FileNotOpenError("Please read image file first!")
+                        raise OpenFileError("Please read image file first!")
                     ima = self._src.ReadAsArray(
                         xoff=xoff, yoff=yoff, xsize=xsize, ysize=ysize
                     )

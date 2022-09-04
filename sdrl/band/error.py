@@ -1,2 +1,2 @@
-class NotFindError(Exception):
+class AttrNotFindError(Exception):
     pass
