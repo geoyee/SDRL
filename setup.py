@@ -4,12 +4,12 @@ import setuptools
 with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
 
-with open("requirements.txt") as fin:
+with open("requirements.txt", "r") as fin:
     REQUIRED_PACKAGES = fin.read()
 
 setuptools.setup(
     name="sdrl",
-    version="0.0.1",
+    version="0.0.2",
     author="geoyee",
     author_email="geoyee@yeah.net",
     description="Satellite Data Read Library",
